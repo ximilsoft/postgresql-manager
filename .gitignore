@@ -1,0 +1,10 @@
+# Ignore IDE directories
+/.idea/
+/.vscode/
+/build/
+/dist/
+/build/
+/postgresql_manager.egg-info/
+/venv/
+__pycache__/
+__pycache__
