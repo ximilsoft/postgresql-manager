@@ -159,4 +159,4 @@ This project is licensed under the MIT License.
 
 ## 📞 Contact
 
-For any issues, open a GitHub issue or reach out via [your email].
+For any issues, open a GitHub issue or reach out via xandortelvanyx@ximilsoft.com.
