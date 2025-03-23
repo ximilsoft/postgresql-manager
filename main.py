@@ -60,3 +60,11 @@ if row_created:
 else:
     print("Failed to create row.")
     exit()
+
+"""
+Configuration set successfully.
+Database created successfully.
+Table created successfully.
+Columns created successfully.
+Row created successfully.
+"""
