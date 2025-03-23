@@ -84,13 +84,15 @@ print(f"Column exists: {column_exists}")
 #### Create a Column
 
 ```python
-Columns.create("mydatabase", "users", "id", "INT", True, True)
+column_created = Columns.create("mydatabase", "users", "id", "INT", True, True)
+print(f"Column created: {column_created}")  # True or False
 ```
 
 #### Delete a Column
 
 ```python
-Columns.delete("mydatabase", "users", "token")
+column_deleted = Columns.delete("mydatabase", "users", "token")
+print(f"Column deleted: {column_deleted}")  # True or False
 ```
 
 ### Rows
@@ -112,7 +114,8 @@ Rows.create("mydatabase", "users", data)
 #### Delete a Row
 
 ```python
-Rows.delete("mydatabase", "users", 1)
+row_deleted = Rows.delete("mydatabase", "users", 1)
+print(f"Row deleted: {row_deleted}")  # True or False
 ```
 
 ## 🤝 Contributing
