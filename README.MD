@@ -140,11 +140,16 @@ row_deleted = Rows.delete("my_database", "users", 1)
 print(f"Row deleted: {row_deleted}") # True or False
 ```
 
-## 🤝 Contributing
+## Getting Help
+
+If you have any questions or need assistance, feel free to [open an issue](https://github.com/ximilsoft/postgresql-manager/issues).
+
+## Contributing
 
 We welcome contributions! If you’d like to improve this project, follow these steps:
 
 ### 1️⃣ Fork the Repository
+
 Click the "Fork" button on GitHub and clone your copy:
 
 ```bash
@@ -174,10 +179,17 @@ git push origin feature-new-functionality
 ### 5️⃣ Submit a Pull Request
 Go to GitHub, open a pull request (PR), and describe your changes.
 
+## Roadmap
+- [x] Basic Functionalities.
+- [ ] Correct templates adding for ".git" repository URL clone.
+- [x] Configure virtual environments for VSCode path.
+- [ ] Integrate additional Git commands.
+
 ## 📜 License
 
 This project is licensed under the MIT License.
 
-## 📞 Contact
+## Support
 
-For any issues, open a GitHub issue or reach out via xandortelvanyx@ximilsoft.com.
+If you find this project helpful, show your support by starring the repository.
+
