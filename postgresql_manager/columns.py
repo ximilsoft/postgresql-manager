@@ -1,9 +1,12 @@
 from psycopg2 import sql
 from postgresql_manager.databases import Databases
+from postgresql_manager import Manager
 
 class Columns:
     """A static class for managing PostgreSQL table columns."""
 
+    VALID_COLUMN_TYPES = {"INT", "VARCHAR", "TEXT", "BOOLEAN", "DATE", "FLOAT", "SERIAL"}
+    """
     VALID_COLUMN_TYPES = {
         "SMALLINT", "INTEGER", "INT", "BIGINT", "DECIMAL", "NUMERIC", "REAL", "DOUBLE PRECISION", "SERIAL", "BIGSERIAL",
         "CHAR", "VARCHAR", "TEXT",
@@ -15,6 +18,7 @@ class Columns:
         "BYTEA", "INET", "CIDR", "MACADDR",
         "POINT", "LINE", "LSEG", "BOX", "PATH", "POLYGON", "CIRCLE"
     }
+    """
 
     @staticmethod
     def exists(database_name: str, table_name: str, column_name: str) -> bool:
@@ -38,73 +42,97 @@ class Columns:
             cursor.close()
             return exists
         except Exception as e:
-            print(f"Error checking existence of column '{column_name}' in table '{table_name}' in '{database_name}': {e}")
+            if Manager.debug:
+                print(f"Error checking existence of column '{column_name}' in table '{table_name}' in '{database_name}': {e}")
             return False
         finally:
             if conn:
                 try:
                     conn.close()
                 except Exception as close_error:
-                    print(f"Error closing connection: {close_error}")
+                    if Manager.debug:
+                        print(f"Error closing connection: {close_error}")
 
     @staticmethod
-    def create(database_name: str, table_name: str, column_name: str, column_type: str, is_not_null: bool = True, is_primary: bool = False, comment: str = None) -> bool:
-        """Adds a new column to a table after validating the column type. Supports PRIMARY KEY, NOT NULL constraints, and column comments."""
+    def create(database_name: str, table_name: str, columns: list[dict]) -> bool:
+        """Adds multiple columns to a table after validating the column types.
         
-        if column_type.upper() not in Columns.VALID_COLUMN_TYPES:
-            print(f"Invalid column type '{column_type}'.")
+        Each column should be a dictionary with keys:
+        - 'name': Column name (str)
+        - 'type': Column type (str, must be in VALID_COLUMN_TYPES)
+        - 'is_not_null': (Optional, bool) Default: True
+        - 'is_primary': (Optional, bool) Default: False
+        - 'comment': (Optional, str) Default: None
+        """
+        if not columns:
+            if Manager.debug:
+                print("No data provided for insertion.")
             return False
 
         conn = None
         try:
             conn = Databases.connect(database_name)
             if not conn:
-                print(f"Failed to connect to database '{database_name}'.")
+                if Manager.debug:
+                    print(f"Failed to connect to database '{database_name}'.")
                 return False
 
             cursor = conn.cursor()
 
-            # Build column definition with constraints
-            constraints = []
-            if is_primary:
-                constraints.append("PRIMARY KEY")
-            
-            if is_not_null:
-                constraints.append("NOT NULL")
-            
-            column_definition = f"{column_type} {' '.join(constraints)}" if constraints else column_type
+            for column in columns:
+                name = column.get("name")
+                col_type = column.get("type", "").upper()
+                is_not_null = column.get("is_not_null", True)
+                is_primary = column.get("is_primary", False)
+                comment = column.get("comment")
 
-            # Add column to the table
-            query = sql.SQL("ALTER TABLE {} ADD COLUMN {} {};").format(
-                sql.Identifier(table_name),
-                sql.Identifier(column_name),
-                sql.SQL(column_definition)
-            )
-            cursor.execute(query)
+                if col_type not in Columns.VALID_COLUMN_TYPES:
+                    if Manager.debug:
+                        print(f"Invalid column type '{col_type}' for column '{name}'.")
+                    continue  # Skip invalid column types
 
-            # Add comment to column if provided
-            if comment:
-                comment_query = sql.SQL("COMMENT ON COLUMN {}.{} IS %s;").format(
+                # Build constraints
+                constraints = []
+                if is_primary:
+                    constraints.append("PRIMARY KEY")
+                if is_not_null:
+                    constraints.append("NOT NULL")
+
+                column_definition = f"{col_type} {' '.join(constraints)}" if constraints else col_type
+
+                # Add column to the table
+                query = sql.SQL("ALTER TABLE {} ADD COLUMN {} {};").format(
                     sql.Identifier(table_name),
-                    sql.Identifier(column_name)
+                    sql.Identifier(name),
+                    sql.SQL(column_definition)
                 )
-                cursor.execute(comment_query, (comment,))
+                cursor.execute(query)
+
+                # Add comment if provided
+                if comment:
+                    comment_query = sql.SQL("COMMENT ON COLUMN {}.{} IS %s;").format(
+                        sql.Identifier(table_name),
+                        sql.Identifier(name)
+                    )
+                    cursor.execute(comment_query, (comment,))
+
+                if Manager.debug:
+                    print(f"Column '{name}' added successfully to table '{table_name}' in database '{database_name}'.")
 
             conn.commit()
             cursor.close()
-            print(f"Column '{column_name}' added successfully to table '{table_name}' in database '{database_name}'.")
-            if comment:
-                print(f"Comment added: {comment}")
             return True
         except Exception as e:
-            print(f"Error adding column '{column_name}' to table '{table_name}' in '{database_name}': {e}")
+            if Manager.debug:
+                print(f"Error adding columns to table '{table_name}' in '{database_name}': {e}")
             return False
         finally:
             if conn:
                 try:
                     conn.close()
                 except Exception as close_error:
-                    print(f"Error closing connection: {close_error}")
+                    if Manager.debug:
+                        print(f"Error closing connection: {close_error}")
 
     @staticmethod
     def delete(database_name: str, table_name: str, column_name: str) -> bool:
@@ -123,14 +151,17 @@ class Columns:
             ))
             conn.commit()
             cursor.close()
-            print(f"Column '{column_name}' deleted successfully from table '{table_name}' in '{database_name}'.")
+            if Manager.debug:
+                print(f"Column '{column_name}' deleted successfully from table '{table_name}' in '{database_name}'.")
             return True
         except Exception as e:
-            print(f"Error deleting column '{column_name}' from table '{table_name}' in '{database_name}': {e}")
+            if Manager.debug:
+                print(f"Error deleting column '{column_name}' from table '{table_name}' in '{database_name}': {e}")
             return False
         finally:
             if conn:
                 try:
                     conn.close()
                 except Exception as close_error:
-                    print(f"Error closing connection: {close_error}")
+                    if Manager.debug:
+                        print(f"Error closing connection: {close_error}")

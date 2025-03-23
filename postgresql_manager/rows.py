@@ -1,5 +1,6 @@
 from psycopg2 import sql
 from postgresql_manager.databases import Databases
+from postgresql_manager import Manager
 
 class Rows:
     """A static class for managing PostgreSQL table rows."""
@@ -25,27 +26,30 @@ class Rows:
             cursor.close()
             return exists
         except Exception as e:
-            print(f"Error checking existence of row ID '{row_id}' in table '{table_name}' in '{database_name}': {e}")
+            if Manager.debug:
+                print(f"Error checking existence of row ID '{row_id}' in table '{table_name}' in '{database_name}': {e}")
             return False
         finally:
             if conn:
                 try:
                     conn.close()
                 except Exception as close_error:
-                    print(f"Error closing connection: {close_error}")
-
+                    if Manager.debug:
+                        print(f"Error checking existence of row ID '{row_id}' in table '{table_name}' in '{database_name}': {e}")
+    
     @staticmethod
-    def create(database_name: str, table_name: str, data: dict) -> bool:
+    def create(database_name: str, table_name: str, data_list: list) -> bool:
         """
-        Inserts a new row into the table.
+        Inserts multiple rows into the table.
 
         :param database_name: Name of the database.
         :param table_name: Name of the table.
-        :param data: Dictionary containing column names as keys and values to insert.
+        :param data_list: List of dictionaries containing column names as keys and values to insert.
         :return: True if successful, False otherwise.
         """
-        if not data:
-            print("No data provided for insertion.")
+        if not data_list:
+            if Manager.debug:
+                print("No data provided for insertion.")
             return False
 
         conn = None
@@ -57,30 +61,42 @@ class Rows:
 
             cursor = conn.cursor()
 
-            columns = data.keys()
-            values = data.values()
+            # Extract column names from the first dictionary
+            columns = list(data_list[0].keys())
 
+            # Create SQL placeholders (%s, %s, ...)
+            values_placeholder = sql.SQL(", ").join([sql.Placeholder()] * len(columns))
+
+            # Construct query
             query = sql.SQL("INSERT INTO {} ({}) VALUES ({}) RETURNING id;").format(
                 sql.Identifier(table_name),
                 sql.SQL(", ").join(map(sql.Identifier, columns)),
-                sql.SQL(", ").join(sql.Placeholder() * len(values))
+                values_placeholder
             )
 
-            cursor.execute(query, tuple(values))
-            inserted_id = cursor.fetchone()[0]  # Get the new row's ID
+            inserted_ids = []
+            for data in data_list:
+                cursor.execute(query, tuple(data.values()))
+                inserted_ids.append(cursor.fetchone()[0])  # Get the new row's ID
+
             conn.commit()
             cursor.close()
-            print(f"Row inserted successfully into table '{table_name}' in database '{database_name}' with ID {inserted_id}.")
+
+            if Manager.debug:
+                print(f"{len(data_list)} rows inserted successfully into table '{table_name}' in database '{database_name}'. Inserted IDs: {inserted_ids}")
+
             return True
         except Exception as e:
-            print(f"Error inserting row into table '{table_name}' in '{database_name}': {e}")
+            if Manager.debug:
+                print(f"Error inserting rows into table '{table_name}' in '{database_name}': {e}")
             return False
         finally:
             if conn:
                 try:
                     conn.close()
                 except Exception as close_error:
-                    print(f"Error closing connection: {close_error}")
+                    if Manager.debug:
+                        print(f"Error closing connection: {close_error}")
 
     @staticmethod
     def delete(database_name: str, table_name: str, row_id: int) -> bool:
@@ -108,14 +124,17 @@ class Rows:
             cursor.execute(query, (row_id,))
             conn.commit()
             cursor.close()
-            print(f"Row with ID {row_id} deleted successfully from table '{table_name}' in database '{database_name}'.")
+            if Manager.debug:
+                print(f"Row with ID {row_id} deleted successfully from table '{table_name}' in database '{database_name}'.")
             return True
         except Exception as e:
-            print(f"Error deleting row with ID {row_id} from table '{table_name}' in '{database_name}': {e}")
+            if Manager.debug:
+                print(f"Error deleting row with ID {row_id} from table '{table_name}' in '{database_name}': {e}")
             return False
         finally:
             if conn:
                 try:
                     conn.close()
                 except Exception as close_error:
-                    print(f"Error closing connection: {close_error}")
+                    if Manager.debug:
+                        print(f"Error closing connection: {close_error}")

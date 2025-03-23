@@ -1,5 +1,6 @@
 from psycopg2 import sql
 from postgresql_manager.databases import Databases
+from postgresql_manager import Manager
 
 class Tables:
     """A static class for managing PostgreSQL tables."""
@@ -25,14 +26,16 @@ class Tables:
             cursor.close()
             return exists
         except Exception as e:
-            print(f"Error checking existence of table '{table_name}' in '{database_name}': {e}")
+            if Manager.debug:
+                print(f"Error checking existence of table '{table_name}' in '{database_name}': {e}")
             return False
         finally:
             if conn:
                 try:
                     conn.close()
                 except Exception as close_error:
-                    print(f"Error closing connection: {close_error}")
+                    if Manager.debug:
+                        print(f"Error closing connection: {close_error}")
 
     @staticmethod
     def create(database_name: str, table_name: str) -> bool:
@@ -47,12 +50,14 @@ class Tables:
         conn = None
         try:
             if Tables.exists(database_name, table_name):
-                print(f"Table '{table_name}' already exists in '{database_name}'.")
+                if Manager.debug:
+                    print(f"Table '{table_name}' already exists in '{database_name}'.")
                 return False
 
             conn = Databases.connect(database_name)
             if not conn:
-                print(f"Failed to connect to database '{database_name}'.")
+                if Manager.debug:
+                    print(f"Failed to connect to database '{database_name}'.")
                 return False
 
             cursor = conn.cursor()
@@ -63,17 +68,20 @@ class Tables:
             cursor.execute(query)
             conn.commit()
             cursor.close()
-            print(f"Table '{table_name}' created successfully in '{database_name}'.")
+            if Manager.debug:
+                (f"Table '{table_name}' created successfully in '{database_name}'.")
             return True
         except Exception as e:
-            print(f"Error creating table '{table_name}' in '{database_name}': {e}")
+            if Manager.debug:
+                print(f"Error creating table '{table_name}' in '{database_name}': {e}")
             return False
         finally:
             if conn:
                 try:
                     conn.close()
                 except Exception as close_error:
-                    print(f"Error closing connection: {close_error}")
+                    if Manager.debug:
+                        print(f"Error closing connection: {close_error}")
 
     @staticmethod
     def delete(database_name: str, table_name: str) -> bool:
@@ -93,14 +101,17 @@ class Tables:
             cursor.execute(sql.SQL("DROP TABLE {};").format(sql.Identifier(table_name)))
             conn.commit()
             cursor.close()
-            print(f"Table '{table_name}' deleted successfully from '{database_name}'.")
+            if Manager.debug:
+                print(f"Table '{table_name}' deleted successfully from '{database_name}'.")
             return True
         except Exception as e:
-            print(f"Error deleting table '{table_name}' from '{database_name}': {e}")
+            if Manager.debug:
+                print(f"Error deleting table '{table_name}' from '{database_name}': {e}")
             return False
         finally:
             if conn:
                 try:
                     conn.close()
                 except Exception as close_error:
-                    print(f"Error closing connection: {close_error}")
+                    if Manager.debug:
+                        print(f"Error closing connection: {close_error}")

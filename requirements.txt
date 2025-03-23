@@ -12,7 +12,7 @@ mdurl==0.1.2
 more-itertools==10.6.0
 nh3==0.2.21
 packaging==24.2
-postgresql_manager @ file:///D:/Github/Ximilsoft/packages/postgresql_manager/dist/postgresql_manager-0.1.0-py3-none-any.whl#sha256=84834026087d7addcaf0f27ab991d58669cdd863fc043575944a55aeeb9105c4
+postgresql_manager=0.1.0
 psycopg2==2.9.10
 Pygments==2.19.1
 pywin32-ctypes==0.2.3

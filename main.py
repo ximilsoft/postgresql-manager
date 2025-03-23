@@ -1,24 +1,62 @@
-from postgresql_manager import Databases, Tables, Columns, Rows
+from postgresql_manager import Manager, Databases, Tables, Columns, Rows
 
-# Example usage
-db = Databases.create("mydatabase")
-table = Tables.create("mydatabase", "users")
-column = Columns.create("mydatabase", "users", "id", "INT", True, True)
+# Configure the database
+success = Manager.config(
+    db_name="my_database",
+    user_name="test_user",
+    password="test_password",
+    host="127.0.0.1",
+    port="5432"
+)
 
-# Step 1: Create the database if it doesn’t exist
-db = Databases.create("mydatabase")
-table = Tables.create("mydatabase", "users")
-column_1 = Columns.create("mydatabase", "users", "id", "INT", True, True)
-column_2 = Columns.create("mydatabase", "users", "name", "VARCHAR", True)
-column_3 = Columns.create("mydatabase", "users", "token", "VARCHAR", False)
+if success:
+    print("Database configuration successful.")
+else:
+    print("Database configuration failed. Exiting...")
+    exit()
 
-data = {"id" :1, "name": "mohammed", "token": "xxxx"}
-row = Rows.create("mydatabase", "users", data)
+# Create a database
+database_my_database = Databases.create("my_database")
 
-print(f"db: {db}")
-print(f"table: {table}")
-print(f"column_1: {column_1}")
-print(f"column_1: {column_2}")
-print(f"column_1: {column_3}")
+if database_my_database:
+    print("Database created successfully.")
+else:
+    print("Failed to create database 'my_database'.")
+    exit()
 
-print(f"row: {column_1}")
+# Create a table
+table_users = Tables.create("my_database", "users")
+
+if table_users:
+    print("Table created successfully.")
+else:
+    print("Failed to create table 'users'.")
+    exit()
+
+# Create a columns
+columns_to_add = [
+    {"name": "id", "type": "INT", "is_not_null": False, "is_primary": True},
+    {"name": "first_name", "type": "VARCHAR", "is_not_null": True},
+    {"name": "last_name", "type": "VARCHAR", "is_not_null": True, "comment": "User's last name"}
+]
+columns = Columns.create("my_database", "users", columns_to_add)
+
+if columns:
+    print("Columns created successfully.")
+else:
+    print("Failed to create one or more columns.")
+    exit()
+
+# Create a rows
+rows_to_add = [
+    {"id": 1, "first_name": "Alice", "last_name": "Smith"},
+    {"id": 2, "first_name": "Bob", "last_name": "Johnson"},
+    {"id": 3, "first_name": "Charlie", "last_name": "Brown"},
+]
+row_created = Rows.create("my_database", "users", rows_to_add)
+
+if row_created:
+    print("Row created successfully.")
+else:
+    print("Failed to create row.")
+    exit()

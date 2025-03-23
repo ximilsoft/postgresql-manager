@@ -31,7 +31,7 @@ from postgresql_manager import Databases, Tables, Columns, Rows
 ```python
 # Configure the database connection
 success = Databases.config(
-    db_name="my_database",
+    dbname="my_database",
     user_name="my_user",
     password="my_password",
     host="127.0.0.1",
@@ -75,21 +75,21 @@ print(f"Database deleted: {database_deleted}") # True or False
 #### Check if a Table Exists
 
 ```python
-table_exists = Tables.exists("users")
+table_exists = Tables.exists("my_database", "users")
 print(f"Table exists: {table_exists}") # True or False
 ```
 
 #### Create a Table
 
 ```python
-table_created = Tables.create("users")
+table_created = Tables.create("my_database", "users")
 print(f"Table created: {table_created}") # True or False
 ```
 
 #### Delete a Table
 
 ```python
-table_deleted = Tables.delete("users")
+table_deleted = Tables.delete("my_database", "users")
 print(f"Table deleted: {table_deleted}") # True or False
 ```
 
