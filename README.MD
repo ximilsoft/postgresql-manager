@@ -1,83 +1,118 @@
-# postgresql_manager
+# PostgreSQL Manager
 
 A simple PostgreSQL management package for handling databases, tables, columns, and rows with ease.
 
-## 📌 Features
+## Features
+
 - Create and manage PostgreSQL databases
 - Create and modify tables
 - Add, update, and delete columns
 - Insert and manage rows
 - Easy-to-use API for database operations
 
-## 📥 Installation
+## Installation
 
-### Install from Source
-To install the package locally, navigate to the project directory and run:
+Install the package using pip:
 
 ```bash
 pip install postgresql_manager
 ```
 
-## 🚀 Usage
-
-### 1️⃣ Import the Package
+## Importing the Module
 
 ```python
 from postgresql_manager import Databases, Tables, Columns, Rows
 ```
 
-### 2️⃣ Create a Database
+## 🚀 Usage
+
+### Databases
+
+#### Check if a Database Exists
 
 ```python
-db = Databases.create("mydatabase")
-print(f"Database created: {db}")
+database_exists = Databases.exists("mydatabase")
+print(f"Database exists: {database_exists}")  # True or False
 ```
 
-### 3️⃣ Create a Table
+#### Create a Database
 
 ```python
-table = Tables.create("mydatabase", "users")
-print(f"Table created: {table}")
+database_created = Databases.create("mydatabase")
+print(f"Database created: {database_created}")  # True or False
 ```
 
-### 4️⃣ Add Columns to a Table
+#### Delete a Database
+
+```python
+database_deleted = Databases.delete("mydatabase")
+print(f"Database deleted: {database_deleted}")  # True or False
+```
+
+### Tables
+
+#### Check if a Table Exists
+
+```python
+table_exists = Tables.exists("users")
+print(f"Table exists: {table_exists}")  # True or False
+```
+
+#### Create a Table
+
+```python
+table_created = Tables.create("users")
+print(f"Table created: {table_created}")  # True or False
+```
+
+#### Delete a Table
+
+```python
+table_deleted = Tables.delete("users")
+print(f"Table deleted: {table_deleted}")  # True or False
+```
+
+### Columns
+
+#### Check If a Column Exists
+
+```python
+column_exists = Columns.exists("mydatabase", "users", "name")
+print(f"Column exists: {column_exists}")
+```
+
+#### Create a Column
 
 ```python
 Columns.create("mydatabase", "users", "id", "INT", True, True)
-Columns.create("mydatabase", "users", "name", "VARCHAR", True)
-Columns.create("mydatabase", "users", "token", "VARCHAR", False)
 ```
 
-### 5️⃣ Insert a Row
-
-```python
-data = {"id": 1, "name": "Mohammed", "token": "xxxx"}
-Rows.create("mydatabase", "users", data)
-```
-
-### 6️⃣ Check If a Column Exists
-
-```python
-exists = Columns.exists("mydatabase", "users", "name")
-print(f"Column exists: {exists}")
-```
-
-### 7️⃣ Delete a Column
+#### Delete a Column
 
 ```python
 Columns.delete("mydatabase", "users", "token")
 ```
 
-### 8️⃣ Delete a Table
+### Rows
+
+#### Check If a Row Exists
 
 ```python
-Tables.delete("mydatabase", "users")
+row_exists = Rows.exists("mydatabase", "users", 1)
+print(f"Row exists: {row_exists}")
 ```
 
-### 9️⃣ Delete a Database
+#### Create a Row
 
 ```python
-Databases.delete("mydatabase")
+data = {"id": 1, "first_name": "John", "last_name": "Smith"}
+Rows.create("mydatabase", "users", data)
+```
+
+#### Delete a Row
+
+```python
+Rows.delete("mydatabase", "users", 1)
 ```
 
 ## 🤝 Contributing
