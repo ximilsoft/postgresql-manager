@@ -182,9 +182,11 @@ git push origin feature-new-functionality
 Go to GitHub, open a pull request (PR), and describe your changes.
 
 ## 📅 Roadmap
+
 - [x] Add database configuration.
 - [ ] Support for multiple databases.
 - [ ] Implement additional database operations.
+- [ ] Enhance scalability and performance optimization.
 
 ## 📜 License
 
