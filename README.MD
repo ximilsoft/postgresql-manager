@@ -99,7 +99,7 @@ print(f"Table deleted: {table_deleted}") # True or False
 
 ```python
 column_exists = Columns.exists("my_database", "users", "name")
-print(f"Column exists: {column_exists}")
+print(f"Column exists: {column_exists}") # True or False
 ```
 
 #### Create a Column
