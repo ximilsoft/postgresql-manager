@@ -24,7 +24,7 @@ pip install postgresql_manager
 from postgresql_manager import Databases, Tables, Columns, Rows
 ```
 
-## 🚀 Usage
+## Usage
 
 ### Databases
 
