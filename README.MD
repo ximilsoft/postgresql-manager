@@ -108,7 +108,8 @@ print(f"Row exists: {row_exists}")
 
 ```python
 data = {"id": 1, "first_name": "John", "last_name": "Smith"}
-Rows.create("mydatabase", "users", data)
+row_created = Rows.create("mydatabase", "users", data)
+print(f"Row created: {row_created}")  # True or False
 ```
 
 #### Delete a Row
