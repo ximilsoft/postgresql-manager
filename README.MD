@@ -148,7 +148,7 @@ If you have any questions or need assistance, feel free to [open an issue](https
 
 We welcome contributions! If you’d like to improve this project, follow these steps:
 
-### 1️⃣ Fork the Repository
+#### Fork the Repository
 
 Click the "Fork" button on GitHub and clone your copy:
 
@@ -157,7 +157,7 @@ git clone https://github.com/ximilsoft/postgresql_manager.git
 cd postgresql_manager
 ```
 
-### 2️⃣ Create a New Branch
+#### Create a New Branch
 
 Create a feature branch for your work:
 
@@ -165,10 +165,10 @@ Create a feature branch for your work:
 git checkout -b feature-new-functionality
 ```
 
-### 3️⃣ Make Changes & Test
+#### Make Changes & Test
 Modify the code and test locally.
 
-### 4️⃣ Commit & Push
+#### Commit & Push
 
 ```bash
 git add .
@@ -176,7 +176,7 @@ git commit -m "Added a new feature"
 git push origin feature-new-functionality
 ```
 
-### 5️⃣ Submit a Pull Request
+#### Submit a Pull Request
 Go to GitHub, open a pull request (PR), and describe your changes.
 
 ## Roadmap
@@ -192,4 +192,3 @@ This project is licensed under the MIT License.
 ## Support
 
 If you find this project helpful, show your support by starring the repository.
-
