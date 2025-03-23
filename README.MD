@@ -52,21 +52,21 @@ else:
 #### Check if a Database Exists
 
 ```python
-database_exists = Databases.exists("mydatabase")
+database_exists = Databases.exists("my_database")
 print(f"Database exists: {database_exists}") # True or False
 ```
 
 #### Create a Database
 
 ```python
-database_created = Databases.create("mydatabase")
+database_created = Databases.create("my_database")
 print(f"Database created: {database_created}") # True or False
 ```
 
 #### Delete a Database
 
 ```python
-database_deleted = Databases.delete("mydatabase")
+database_deleted = Databases.delete("my_database")
 print(f"Database deleted: {database_deleted}") # True or False
 ```
 
@@ -98,21 +98,21 @@ print(f"Table deleted: {table_deleted}") # True or False
 #### Check If a Column Exists
 
 ```python
-column_exists = Columns.exists("mydatabase", "users", "name")
+column_exists = Columns.exists("my_database", "users", "name")
 print(f"Column exists: {column_exists}")
 ```
 
 #### Create a Column
 
 ```python
-column_created = Columns.create("mydatabase", "users", "id", "INT", True, True)
+column_created = Columns.create("my_database", "users", "id", "INT", True, True)
 print(f"Column created: {column_created}") # True or False
 ```
 
 #### Delete a Column
 
 ```python
-column_deleted = Columns.delete("mydatabase", "users", "token")
+column_deleted = Columns.delete("my_database", "users", "token")
 print(f"Column deleted: {column_deleted}") # True or False
 ```
 
@@ -121,7 +121,7 @@ print(f"Column deleted: {column_deleted}") # True or False
 #### Check If a Row Exists
 
 ```python
-row_exists = Rows.exists("mydatabase", "users", 1)
+row_exists = Rows.exists("my_database", "users", 1)
 print(f"Row exists: {row_exists}") # True or False
 ```
 
@@ -129,14 +129,14 @@ print(f"Row exists: {row_exists}") # True or False
 
 ```python
 data = {"id": 1, "first_name": "John", "last_name": "Smith"}
-row_created = Rows.create("mydatabase", "users", data)
+row_created = Rows.create("my_database", "users", data)
 print(f"Row created: {row_created}") # True or False
 ```
 
 #### Delete a Row
 
 ```python
-row_deleted = Rows.delete("mydatabase", "users", 1)
+row_deleted = Rows.delete("my_database", "users", 1)
 print(f"Row deleted: {row_deleted}") # True or False
 ```
 
