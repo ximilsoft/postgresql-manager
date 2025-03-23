@@ -32,21 +32,21 @@ from postgresql_manager import Databases, Tables, Columns, Rows
 
 ```python
 database_exists = Databases.exists("mydatabase")
-print(f"Database exists: {database_exists}")  # True or False
+print(f"Database exists: {database_exists}") # True or False
 ```
 
 #### Create a Database
 
 ```python
 database_created = Databases.create("mydatabase")
-print(f"Database created: {database_created}")  # True or False
+print(f"Database created: {database_created}") # True or False
 ```
 
 #### Delete a Database
 
 ```python
 database_deleted = Databases.delete("mydatabase")
-print(f"Database deleted: {database_deleted}")  # True or False
+print(f"Database deleted: {database_deleted}") # True or False
 ```
 
 ### Tables
@@ -55,21 +55,21 @@ print(f"Database deleted: {database_deleted}")  # True or False
 
 ```python
 table_exists = Tables.exists("users")
-print(f"Table exists: {table_exists}")  # True or False
+print(f"Table exists: {table_exists}") # True or False
 ```
 
 #### Create a Table
 
 ```python
 table_created = Tables.create("users")
-print(f"Table created: {table_created}")  # True or False
+print(f"Table created: {table_created}") # True or False
 ```
 
 #### Delete a Table
 
 ```python
 table_deleted = Tables.delete("users")
-print(f"Table deleted: {table_deleted}")  # True or False
+print(f"Table deleted: {table_deleted}") # True or False
 ```
 
 ### Columns
@@ -85,14 +85,14 @@ print(f"Column exists: {column_exists}")
 
 ```python
 column_created = Columns.create("mydatabase", "users", "id", "INT", True, True)
-print(f"Column created: {column_created}")  # True or False
+print(f"Column created: {column_created}") # True or False
 ```
 
 #### Delete a Column
 
 ```python
 column_deleted = Columns.delete("mydatabase", "users", "token")
-print(f"Column deleted: {column_deleted}")  # True or False
+print(f"Column deleted: {column_deleted}") # True or False
 ```
 
 ### Rows
@@ -101,7 +101,7 @@ print(f"Column deleted: {column_deleted}")  # True or False
 
 ```python
 row_exists = Rows.exists("mydatabase", "users", 1)
-print(f"Row exists: {row_exists}")
+print(f"Row exists: {row_exists}") # True or False
 ```
 
 #### Create a Row
@@ -109,14 +109,14 @@ print(f"Row exists: {row_exists}")
 ```python
 data = {"id": 1, "first_name": "John", "last_name": "Smith"}
 row_created = Rows.create("mydatabase", "users", data)
-print(f"Row created: {row_created}")  # True or False
+print(f"Row created: {row_created}") # True or False
 ```
 
 #### Delete a Row
 
 ```python
 row_deleted = Rows.delete("mydatabase", "users", 1)
-print(f"Row deleted: {row_deleted}")  # True or False
+print(f"Row deleted: {row_deleted}") # True or False
 ```
 
 ## 🤝 Contributing
