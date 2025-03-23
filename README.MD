@@ -12,16 +12,37 @@ A simple PostgreSQL management package for handling databases, tables, columns, 
 
 ## Installation
 
+### Install the Package
+
 Install the package using pip:
 
 ```bash
 pip install postgresql_manager
 ```
 
-## Importing the Module
+### Import the Package
 
 ```python
 from postgresql_manager import Databases, Tables, Columns, Rows
+```
+
+### Configure the Database
+
+```python
+# Configure the database connection
+success = Databases.config(
+    db_name="my_database",
+    user_name="my_user",
+    password="my_password",
+    host="127.0.0.1",
+    port="5432"
+)
+
+# Check if configuration was successful
+if success:
+    print("Configuration set successfully.")
+else:
+    print("Failed to set configuration.")
 ```
 
 ## Usage

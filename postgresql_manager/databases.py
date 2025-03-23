@@ -4,26 +4,42 @@ from psycopg2 import sql, OperationalError
 class Databases:
     """A static class for managing PostgreSQL database operations."""
 
-    dbname = "postgres"
-    user = "postgres"
+    db_name = "postgres"
+    user_name = "postgres"
     password = "newpassword"
     host = "localhost"
     port = "5432"
 
     @staticmethod
-    def exists(dbname=None) -> bool:
+    def config(db_name, user_name, password, host, port) -> bool:
+        """Configures the database connection parameters."""
+        if not all([db_name, user_name, password, host, port]):
+            print("All parameters must be provided.")
+            return False
+
+        Databases.db_name = db_name
+        Databases.user_name = user_name
+        Databases.password = password
+        Databases.host = host
+        Databases.port = port
+
+        print("Database configuration updated successfully.")
+        return True
+
+    @staticmethod
+    def exists(db_name=None) -> bool:
         """Checks if a PostgreSQL database exists."""
         
-        if not all([Databases.user, Databases.password, Databases.host, Databases.port]):
+        if not all([Databases.user_name, Databases.password, Databases.host, Databases.port]):
             print("Database connection parameters are not set.")
             return False
         
-        dbname = dbname or Databases.dbname
+        db_name = db_name or Databases.db_name
         conn = None
         try:
             conn = psycopg2.connect(
-                dbname=dbname,
-                user=Databases.user,
+                db_name=db_name,
+                user=Databases.user_name,
                 password=Databases.password,
                 host=Databases.host,
                 port=Databases.port
@@ -40,31 +56,31 @@ class Databases:
                     print(f"Error closing connection: {close_error}")
 
     @staticmethod
-    def create(dbname=None) -> bool:
+    def create(db_name=None) -> bool:
         """Creates a new PostgreSQL database if it does not exist."""
         
-        dbname = dbname or Databases.dbname
+        db_name = db_name or Databases.db_name
         conn = None
         try:
-            if Databases.exists(dbname):
-                print(f"Database '{dbname}' already exists.")
+            if Databases.exists(db_name):
+                print(f"Database '{db_name}' already exists.")
                 return False
             
             conn = psycopg2.connect(
-                dbname=Databases.dbname,  # Connect to default database to create a new one
-                user=Databases.user,
+                db_name=Databases.db_name,  # Connect to default database to create a new one
+                user=Databases.user_name,
                 password=Databases.password,
                 host=Databases.host,
                 port=Databases.port
             )
             conn.autocommit = True
             cursor = conn.cursor()
-            cursor.execute(sql.SQL("CREATE DATABASE {};" ).format(sql.Identifier(dbname)))
+            cursor.execute(sql.SQL("CREATE DATABASE {};" ).format(sql.Identifier(db_name)))
             cursor.close()
-            print(f"Database '{dbname}' created successfully.")
+            print(f"Database '{db_name}' created successfully.")
             return True
         except Exception as e:
-            print(f"Error creating database '{dbname}': {e}")
+            print(f"Error creating database '{db_name}': {e}")
             return False
         finally:
             if conn:
@@ -74,38 +90,38 @@ class Databases:
                     print(f"Error closing connection: {close_error}")
 
     @staticmethod
-    def connect(dbname=None):
+    def connect(db_name=None):
         """Connects to a PostgreSQL database (defaults to 'postgres' for administrative tasks)."""
         
-        dbname = dbname or Databases.dbname
+        db_name = db_name or Databases.db_name
         try:
             conn = psycopg2.connect(
-                dbname=dbname,
-                user=Databases.user,
+                db_name=db_name,
+                user=Databases.user_name,
                 password=Databases.password,
                 host=Databases.host,
                 port=Databases.port
             )
             return conn
         except Exception as e:
-            print(f"Error connecting to database '{dbname}': {e}")
+            print(f"Error connecting to database '{db_name}': {e}")
             return None
 
     @staticmethod
-    def delete(dbname=None) -> bool:
+    def delete(db_name=None) -> bool:
         """Deletes a PostgreSQL database if it exists, ensuring no active connections."""
 
-        dbname = dbname or Databases.dbname
+        db_name = db_name or Databases.db_name
         conn = None
         try:
-            if not Databases.exists(dbname):
-                print(f"Database '{dbname}' does not exist.")
+            if not Databases.exists(db_name):
+                print(f"Database '{db_name}' does not exist.")
                 return False
 
             # Connect to the default database to execute termination queries
             conn = psycopg2.connect(
-                dbname="postgres",  # Must connect to a different DB to drop the target one
-                user=Databases.user,
+                db_name="postgres",  # Must connect to a different DB to drop the target one
+                user=Databases.user_name,
                 password=Databases.password,
                 host=Databases.host,
                 port=Databases.port
@@ -118,15 +134,15 @@ class Databases:
                 SELECT pg_terminate_backend(pg_stat_activity.pid)
                 FROM pg_stat_activity
                 WHERE pg_stat_activity.datname = %s AND pid <> pg_backend_pid();
-            """), [dbname])
+            """), [db_name])
 
             # Drop the database after terminating connections
-            cursor.execute(sql.SQL("DROP DATABASE {};").format(sql.Identifier(dbname)))
+            cursor.execute(sql.SQL("DROP DATABASE {};").format(sql.Identifier(db_name)))
             cursor.close()
-            print(f"Database '{dbname}' deleted successfully.")
+            print(f"Database '{db_name}' deleted successfully.")
             return True
         except Exception as e:
-            print(f"Error deleting database '{dbname}': {e}")
+            print(f"Error deleting database '{db_name}': {e}")
             return False
         finally:
             if conn:
