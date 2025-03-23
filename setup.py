@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="postgresql_manager",
-    version="0.1.0",
+    version="1.0.0",
     author="Xandor Telvanyx",
     author_email="xandortelvanyx@ximilsoft.com",
     description="A simple PostgreSQL management package for handling databases, tables, columns, and rows.",

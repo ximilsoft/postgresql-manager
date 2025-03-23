@@ -23,17 +23,17 @@ pip install postgresql_manager
 ### Import the Package
 
 ```python
-from postgresql_manager import Databases, Tables, Columns, Rows
+from postgresql_manager import Manager, Databases, Tables, Columns, Rows
 ```
 
 ### Configure the Database
 
 ```python
 # Configure the database connection
-success = Databases.config(
-    dbname="my_database",
-    user_name="my_user",
-    password="my_password",
+success = Manager.config(
+    db_name="my_database",
+    user_name="test_user",
+    password="test_password",
     host="127.0.0.1",
     port="5432"
 )
@@ -105,8 +105,13 @@ print(f"Column exists: {column_exists}") # True or False
 #### Create a Column
 
 ```python
-column_created = Columns.create("my_database", "users", "id", "INT", True, True)
-print(f"Column created: {column_created}") # True or False
+columns_to_add = [
+    {"name": "id", "type": "INT", "is_not_null": False, "is_primary": True},
+    {"name": "first_name", "type": "VARCHAR", "is_not_null": True},
+    {"name": "last_name", "type": "VARCHAR", "is_not_null": True, "comment": "User's last name"}
+]
+columns = Columns.create("my_database", "users", columns_to_add)
+print(f"Columns: {columns}") # True or False
 ```
 
 #### Delete a Column
@@ -128,8 +133,12 @@ print(f"Row exists: {row_exists}") # True or False
 #### Create a Row
 
 ```python
-data = {"id": 1, "first_name": "John", "last_name": "Smith"}
-row_created = Rows.create("my_database", "users", data)
+rows_to_add = [
+    {"id": 1, "first_name": "Alice", "last_name": "Smith"},
+    {"id": 2, "first_name": "Bob", "last_name": "Johnson"},
+    {"id": 3, "first_name": "Charlie", "last_name": "Brown"},
+]
+row_created = Rows.create("my_database", "users", rows_to_add)
 print(f"Row created: {row_created}") # True or False
 ```
 

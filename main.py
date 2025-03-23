@@ -10,9 +10,9 @@ success = Manager.config(
 )
 
 if success:
-    print("Database configuration successful.")
+    print("Configuration set successfully.")
 else:
-    print("Database configuration failed. Exiting...")
+    print("Failed to set configuration.")
     exit()
 
 # Create a database
