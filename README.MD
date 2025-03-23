@@ -155,7 +155,7 @@ If you have any questions or need assistance, feel free to [open an issue](https
 
 ## Contributing
 
-We welcome contributions! If you’d like to improve this project, follow these steps:
+We welcome contributions, If you’d like to improve this project, follow these steps:
 
 #### 1. Fork the Repository
 
