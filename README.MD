@@ -148,7 +148,7 @@ If you have any questions or need assistance, feel free to [open an issue](https
 
 We welcome contributions! If you’d like to improve this project, follow these steps:
 
-#### Fork the Repository
+#### 1. Fork the Repository
 
 Click the "Fork" button on GitHub and clone your copy:
 
@@ -157,7 +157,7 @@ git clone https://github.com/ximilsoft/postgresql_manager.git
 cd postgresql_manager
 ```
 
-#### Create a New Branch
+#### 2. Create a New Branch
 
 Create a feature branch for your work:
 
@@ -165,10 +165,11 @@ Create a feature branch for your work:
 git checkout -b feature-new-functionality
 ```
 
-#### Make Changes & Test
+#### 3. Make Changes & Test
+
 Modify the code and test locally.
 
-#### Commit & Push
+#### 4. Commit & Push
 
 ```bash
 git add .
@@ -176,14 +177,14 @@ git commit -m "Added a new feature"
 git push origin feature-new-functionality
 ```
 
-#### Submit a Pull Request
+#### 5. Submit a Pull Request
+
 Go to GitHub, open a pull request (PR), and describe your changes.
 
-## Roadmap
-- [x] Basic Functionalities.
-- [ ] Correct templates adding for ".git" repository URL clone.
-- [x] Configure virtual environments for VSCode path.
-- [ ] Integrate additional Git commands.
+## 📅 Roadmap
+- [x] Add database configuration.
+- [ ] Support for multiple databases.
+- [ ] Implement additional database operations.
 
 ## 📜 License
 
