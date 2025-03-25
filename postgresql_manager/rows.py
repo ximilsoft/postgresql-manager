@@ -1,4 +1,3 @@
-
 from psycopg2 import sql
 from postgresql_manager.databases import Databases
 from postgresql_manager import Manager

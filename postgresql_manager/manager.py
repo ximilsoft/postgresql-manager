@@ -9,9 +9,11 @@ class Manager:
     host = "localhost"
     port = "5432"
     debug = False
+    
+    con = None
 
     @staticmethod
-    def config(db_name, user_name, password, host, port, debug=False) -> bool:
+    def start(db_name, user_name, password, host, port, debug=False) -> bool:
         """Configures the database connection parameters."""
         if not all([db_name, user_name, password, host, port]):
             if debug:
@@ -28,3 +30,9 @@ class Manager:
         if debug:
             print("Database configuration updated successfully.")
         return True
+
+    @staticmethod
+    def end() -> bool:
+        """Closes the database connection if it's open."""
+        from postgresql_manager import Databases
+        return Databases.disconnect()

@@ -94,6 +94,25 @@ class Databases:
             return None
 
     @staticmethod
+    def disconnect() -> bool:
+        """Closes the active database connection safely."""
+        if Manager.conn:
+            try:
+                Manager.conn.close()  # Corrected reference
+                Manager.conn = None  # Reset connection
+                if Manager.debug:
+                    print("Database connection closed successfully.")
+                return True
+            except Exception as e:
+                if Manager.debug:
+                    print(f"Error closing connection: {e}")
+                return False
+        else:
+            if Manager.debug:
+                print("No active connection to close.")
+            return True
+
+    @staticmethod
     def delete(db_name=None) -> bool:
         """Deletes a PostgreSQL database if it exists, ensuring no active connections."""
 
