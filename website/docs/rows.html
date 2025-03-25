@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rows Class Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Small custom CSS to improve mobile experience */
+        @media (max-width: 991.98px) {
+            .sidebar.show {
+                display: block !important;
+            }
+            .sidebar {
+                width: 100% !important;
+                position: static !important;
+            }
+            .sidebar.collapse {
+                display: none;
+            }
+            .sidebar-collapse {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex flex-column flex-lg-row min-vh-100">
+        <!-- Mobile header with toggle button -->
+        <header class="d-lg-none bg-light p-3 d-flex justify-content-between align-items-center">
+            <a href="/index.html" class="text-decoration-none">
+                <span class="fs-4">PostgreSQL Manager</span>
+            </a>
+            <button class="btn btn-primary sidebar-collapse d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar">
+                Menu
+            </button>
+        </header>
+
+        <!-- Sidebar -->
+        <div class="sidebar flex-shrink-0 p-3 bg-light collapse d-lg-block" style="width: 280px;">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="/index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                    <span class="fs-4">PostgreSQL Manager</span>
+                </a>
+                <button class="btn btn-link d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </button>
+            </div>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="introduction.html" class="nav-link link-dark">
+                        Introduction
+                    </a>
+                </li>
+                <li>
+                    <a href="/databases" class="nav-link link-dark">
+                        Databases
+                    </a>
+                </li>
+                <li>
+                    <a href="/tables" class="nav-link link-dark">
+                        Tables
+                    </a>
+                </li>
+                <li>
+                    <a href="/columns" class="nav-link link-dark">
+                        Columns
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link active">
+                        Rows
+                    </a>
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item">
+                            <a href="#exists" class="nav-link link-dark">
+                                exists()
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#list" class="nav-link link-dark">
+                                list()
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#create" class="nav-link link-dark">
+                                create()
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#delete" class="nav-link link-dark">
+                                delete()
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#update" class="nav-link link-dark">
+                                update()
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- Main content -->
+        <div class="flex-grow-1 p-4 overflow-auto">
+            <div class="container-fluid">
+                <section id="introduction">
+                    <h1 class="display-4 mb-4">Rows</h1>
+                    <p class="lead">Interacting with table rows.</p>
+                </section>
+                <hr class="mt-3 mb-3">
+                <section id="exists" class="method-section">
+                    <h2 class="mb-3">exists()</h2>
+                    <p class="lead">Checks if a row exists in the specified table that matches the given conditions.</p>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0">Signature</h5>
+                        </div>
+                        <div class="card-body">
+                            <pre><code class="language-python">def exists(database: str, table: str, conditions: dict, logical_operator: str = "AND") -> bool:</code></pre>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">Parameters</h4>
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="width: 20%">Parameter</th>
+                                <th style="width: 20%">Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>database</code></td>
+                                <td>str</td>
+                                <td>Name of the database</td>
+                            </tr>
+                            <tr>
+                                <td><code>table</code></td>
+                                <td>str</td>
+                                <td>Name of the table</td>
+                            </tr>
+                            <tr>
+                                <td><code>conditions</code></td>
+                                <td>dict</td>
+                                <td>Dictionary of field-value pairs to match</td>
+                            </tr>
+                            <tr>
+                                <td><code>logical_operator</code></td>
+                                <td>str</td>
+                                <td>Logical operator for combining multiple conditions ("AND" or "OR")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 class="mt-4">Returns</h4>
+                    <p><code>bool</code> - True if matching row exists, False otherwise</p>
+
+                    <h4 class="mt-4">Example</h4>
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <pre><code class="language-python"># Check if a user with username 'john_doe' exists
+exists = Rows.exists("my_database", "users", {"username": "john_doe"})
+print(exists)  # Output: True or False</code></pre>
+                        </div>
+                    </div>
+                </section>
+                <hr class="mt-3 mb-3">
+                <section id="list" class="method-section">
+                    <h2 class="mb-3">list()</h2>
+                    <p class="lead">Retrieves rows from a table, optionally filtered by conditions.</p>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0">Signature</h5>
+                        </div>
+                        <div class="card-body">
+                            <pre><code class="language-python">def list(database: str, table: str, conditions: dict = None, 
+         logical_operator: str = "AND", limit: int = 100) -> list[dict]:</code></pre>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">Parameters</h4>
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="width: 20%">Parameter</th>
+                                <th style="width: 20%">Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>database</code></td>
+                                <td>str</td>
+                                <td>Name of the database</td>
+                            </tr>
+                            <tr>
+                                <td><code>table</code></td>
+                                <td>str</td>
+                                <td>Name of the table</td>
+                            </tr>
+                            <tr>
+                                <td><code>conditions</code></td>
+                                <td>dict</td>
+                                <td>Optional dictionary of field-value pairs to filter rows</td>
+                            </tr>
+                            <tr>
+                                <td><code>logical_operator</code></td>
+                                <td>str</td>
+                                <td>Logical operator for combining multiple conditions ("AND" or "OR")</td>
+                            </tr>
+                            <tr>
+                                <td><code>limit</code></td>
+                                <td>int</td>
+                                <td>Maximum number of rows to return (default: 100)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 class="mt-4">Returns</h4>
+                    <p><code>list[dict]</code> - A list of dictionaries, each representing a row</p>
+
+                    <h4 class="mt-4">Examples</h4>
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <pre><code class="language-python"># 1. Retrieve all active users
+database = "my_database"
+table = "users"
+conditions = {"status": "active"}
+active_users = Rows.list(database, table, conditions, logical_operator="AND", limit=20)
+print(active_users)  
+# Returns: [{'id': 1, 'username': 'alice', 'status': 'active'}, {'id': 2, 'username': 'bob', 'status': 'active'}]
+                                
+# 2. Get all orders placed after March 1, 2024
+database = "my_database"
+table = "orders"
+conditions = {"created_at >": "2024-03-01 00:00:00"}
+recent_orders = Rows.list(database, table, conditions, logical_operator="AND", limit=50)
+print(recent_orders)  
+# Returns: [{'id': 5, 'created_at': '2024-03-05', 'amount': 100.0}, ...]
+                                
+# 3. Fetch all high-value transactions (amount > 1000)
+database = "my_database"
+table = "transactions"
+conditions = {"amount >": 1000}
+high_value_transactions = Rows.list(database, table, conditions, logical_operator="AND", limit=30)
+print(high_value_transactions)  
+# Returns: [{'id': 10, 'amount': 1500, 'status': 'completed'}, ...]
+                                
+# 4. Get orders with either status 'shipped' or 'delivered'
+database = "my_database"
+table = "orders"
+conditions = {"status": "shipped", "status": "delivered"}
+shipped_or_delivered_orders = Rows.list(database, table, conditions, logical_operator="OR", limit=100)
+print(shipped_or_delivered_orders)  
+# Returns: [{'id': 20, 'status': 'shipped'}, {'id': 21, 'status': 'delivered'}, ...]
+                                
+# 5. Retrieve users who haven't logged in for more than a year
+database = "my_database"
+table = "users"
+conditions = {"last_login <": "2023-03-25 00:00:00"}
+inactive_users = Rows.list(database, table, conditions, logical_operator="AND", limit=100)
+print(inactive_users)  
+# Returns: [{'id': 7, 'username': 'charlie', 'last_login': '2022-12-10'}, ...]</code></pre>
+                        </div>
+                    </div>
+                </section>
+                <hr class="mt-3 mb-3">
+                <section id="create" class="method-section">
+                    <h2 class="mb-3">create()</h2>
+                    <p class="lead">Inserts one or more new rows into a table.</p>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0">Signature</h5>
+                        </div>
+                        <div class="card-body">
+                            <pre><code class="language-python">def create(database: str, table: str, data: list[dict]) -> bool:</code></pre>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">Parameters</h4>
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="width: 20%">Parameter</th>
+                                <th style="width: 20%">Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>database</code></td>
+                                <td>str</td>
+                                <td>Name of the database</td>
+                            </tr>
+                            <tr>
+                                <td><code>table</code></td>
+                                <td>str</td>
+                                <td>Name of the table</td>
+                            </tr>
+                            <tr>
+                                <td><code>data</code></td>
+                                <td>list[dict]</td>
+                                <td>List of dictionaries where each dictionary represents a row to insert</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 class="mt-4">Returns</h4>
+                    <p><code>bool</code> - True if all rows were inserted successfully, False otherwise</p>
+
+                    <h4 class="mt-4">Example</h4>
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <pre><code class="language-python"># Create two new users
+success = Rows.create("my_database", "users", [
+    {"username": "alice", "email": "alice@example.com"},
+    {"username": "bob", "email": "bob@example.com"}
+])
+print("Creation successful:", success)</code></pre>
+                        </div>
+                    </div>
+                </section>
+                <hr class="mt-3 mb-3">
+                <section id="delete" class="method-section">
+                    <h2 class="mb-3">delete()</h2>
+                    <p class="lead">Deletes a specific row from a table by its ID.</p>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0">Signature</h5>
+                        </div>
+                        <div class="card-body">
+                            <pre><code class="language-python">def delete(database: str, table: str, row_id: int) -> bool:</code></pre>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">Parameters</h4>
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="width: 20%">Parameter</th>
+                                <th style="width: 20%">Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>database</code></td>
+                                <td>str</td>
+                                <td>Name of the database</td>
+                            </tr>
+                            <tr>
+                                <td><code>table</code></td>
+                                <td>str</td>
+                                <td>Name of the table</td>
+                            </tr>
+                            <tr>
+                                <td><code>row_id</code></td>
+                                <td>int</td>
+                                <td>The primary key ID of the row to delete</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 class="mt-4">Returns</h4>
+                    <p><code>bool</code> - True if the row was deleted successfully, False otherwise</p>
+
+                    <h4 class="mt-4">Example</h4>
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <pre><code class="language-python"># Delete user with ID 5
+deleted = Rows.delete("my_database", "users", 5)
+print("User deleted:", deleted)</code></pre>
+                        </div>
+                    </div>
+                </section>
+                <hr class="mt-3 mb-3">
+                <section id="update" class="method-section">
+                    <h2 class="mb-3">update()</h2>
+                    <p class="lead">Updates specific fields of a row in a table.</p>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0">Signature</h5>
+                        </div>
+                        <div class="card-body">
+                            <pre><code class="language-python">def update(database: str, table: str, row_id: int, update_data: dict) -> bool:</code></pre>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">Parameters</h4>
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="width: 20%">Parameter</th>
+                                <th style="width: 20%">Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>database</code></td>
+                                <td>str</td>
+                                <td>Name of the database</td>
+                            </tr>
+                            <tr>
+                                <td><code>table</code></td>
+                                <td>str</td>
+                                <td>Name of the table</td>
+                            </tr>
+                            <tr>
+                                <td><code>row_id</code></td>
+                                <td>int</td>
+                                <td>The primary key ID of the row to update</td>
+                            </tr>
+                            <tr>
+                                <td><code>update_data</code></td>
+                                <td>dict</td>
+                                <td>Dictionary of field-value pairs to update</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 class="mt-4">Returns</h4>
+                    <p><code>bool</code> - True if the row was updated successfully, False otherwise</p>
+
+                    <h4 class="mt-4">Example</h4>
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <pre><code class="language-python"># Update email for user with ID 3
+updated = Rows.update("my_database", "users", 3, 
+                      {"email": "new_email@example.com"})
+print("Update successful:", updated)</code></pre>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Close sidebar when clicking on nav links (mobile only)
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 992) {
+                        const sidebar = document.querySelector('.sidebar');
+                        sidebar.classList.remove('show');
+                    }
+                });
+            });
+        });
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
